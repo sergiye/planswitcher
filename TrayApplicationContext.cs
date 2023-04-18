@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Windows.Forms;
 using System.Reflection;
 using System.Collections.Generic;
+using System.Diagnostics;
 
 namespace PlanSwitcher {
 
@@ -46,7 +47,7 @@ namespace PlanSwitcher {
       AddMenuItems();
       UpdateBatteryState();
 
-      hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(Hook_KeyPressed);
+      hook.KeyPressed += new EventHandler<KeyPressedEventArgs>(SwitchToNextPlan);
       hook.RegisterHotKey(ModifierKeys.Control | ModifierKeys.Alt, Keys.Q);
     }
 
@@ -96,10 +97,12 @@ namespace PlanSwitcher {
     }
 
     private void AddMenuItems() {
+
+      ToolStripMenuItem item;
       // Add an item for each power plan.
       PowerPlan currentPlan = powerManager.GetCurrentPlan();
       foreach (PowerPlan p in plans) {
-        ToolStripMenuItem item = new ToolStripMenuItem(p.name);
+        item = new ToolStripMenuItem(p.name);
         PowerPlan pp = p;
         item.Click += delegate (object sender, EventArgs args) {
           powerManager.SetActive(pp);
@@ -110,18 +113,28 @@ namespace PlanSwitcher {
 
       notifyIcon.ContextMenuStrip.Items.Add(new ToolStripSeparator());
 
-      // Utility items.
-      {
-        var item = new ToolStripMenuItem("Open control panel");
-        item.Click += OpenControlPanelClick;
-        notifyIcon.ContextMenuStrip.Items.Add(item);
-      }
+      item = new ToolStripMenuItem("Switch to next plan");
+      item.Click += SwitchToNextPlan;
+      item.ShortcutKeys = Keys.Control | Keys.Alt | Keys.Q;
+      item.ShowShortcutKeys = true;
+      notifyIcon.ContextMenuStrip.Items.Add(item);
 
-      {
-        var item = new ToolStripMenuItem("Exit");
-        item.Click += ExitClick;
-        notifyIcon.ContextMenuStrip.Items.Add(item);
-      }
+      item = new ToolStripMenuItem("Open control panel");
+      item.Click += OpenControlPanelClick;
+      notifyIcon.ContextMenuStrip.Items.Add(item);
+
+      item = new ToolStripMenuItem("About");
+      item.Click += (s, e)=> {
+        try {
+          Process.Start(new ProcessStartInfo("https://github.com/sergiye/planswitcher"));
+        }
+        catch { }
+      };
+      notifyIcon.ContextMenuStrip.Items.Add(item);
+
+      item = new ToolStripMenuItem("Exit");
+      item.Click += ExitClick;
+      notifyIcon.ContextMenuStrip.Items.Add(item);
     }
 
     #region Interaction handlers
@@ -129,13 +142,13 @@ namespace PlanSwitcher {
     private void OnContextMenuStripOpening(object sender, System.ComponentModel.CancelEventArgs e) {
       int idx = plans.IndexOf(powerManager.GetCurrentPlan());
 
-      foreach (ToolStripItem item in notifyIcon.ContextMenuStrip.Items) {
-        if (item is ToolStripMenuItem toolStripItem) {
-          toolStripItem.Checked = false;
-        }
+      for (int i = 0; i < notifyIcon.ContextMenuStrip.Items.Count; i++) {
+        var item = notifyIcon.ContextMenuStrip.Items[i];
+        if (!(item is ToolStripMenuItem toolStripItem))
+          break;
+        toolStripItem.Checked = i == idx;
       }
 
-        ((ToolStripMenuItem)notifyIcon.ContextMenuStrip.Items[idx]).Checked = true;
     }
 
     private void OpenControlPanelClick(object sender, EventArgs e) {
@@ -153,7 +166,7 @@ namespace PlanSwitcher {
       ExitThread();
     }
 
-    private void Hook_KeyPressed(object sender, KeyPressedEventArgs e) {
+    private void SwitchToNextPlan(object sender, EventArgs e) {
       var idx = plans.IndexOf(powerManager.GetCurrentPlan());
       var nextIdx = idx == plans.Count - 1 ? 0 : idx + 1;
       powerManager.SetActive(plans[nextIdx]);

@@ -1,9 +1,26 @@
 # Plan Switcher
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/sergiye/PlanSwitcher?style=plastic)
-![GitHub all releases](https://img.shields.io/github/downloads/sergiye/PlanSwitcher/total?style=plastic)
-![GitHub last commit](https://img.shields.io/github/last-commit/sergiye/PlanSwitcher?style=plastic)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/sergiye/PlanSwitcher?style=for-the-badge)
+![GitHub all releases](https://img.shields.io/github/downloads/sergiye/PlanSwitcher/total?style=for-the-badge)
+![GitHub last commit](https://img.shields.io/github/last-commit/sergiye/PlanSwitcher?style=for-the-badge)
 
 Plan Switcher - power plan switcher utility
+
+----
+
+[<img src="https://github.com/sergiye/hiberbeeTheme/raw/master/assets/ukraine_flag_bar.png" alt="UA"/>](https://u24.gov.ua)
+
+
+Support the Armed Forces of Ukraine and People Affected by Russia’s Aggression on UNITED24, the official fundraising platform of Ukraine: https://u24.gov.ua.
+
+**Слава Україні!**
+
+[<img src="https://github.com/sergiye/hiberbeeTheme/raw/master/assets/ukraine_flag_bar.png" alt="UA"/>](https://u24.gov.ua)
+
+
+## What will it look like?
+
+[<img src="https://github.com/sergiye/planswitcher/raw/master/preview.png" alt="Themes" width="300"/>](https://github.com/sergiye/planswitcher/releases)
+
 
 ## Features
 
@@ -13,7 +30,7 @@ Ctrl+Alt+Q hotkey to switch between power plans (switch to the next one)
 
 # Download
 
-**The recommended way to get the program is BUILD from source**
+**The recommended way to get the program is build from source**
 - Install git, Visual Studio
 - `git clone https://github.com/sergiye/PlanSwitcher.git`
 - build
@@ -26,12 +43,3 @@ GPL-3.0 License
 
 Copyright © 2023 Sergiy Egoshyn
 
-## Donate
-
-<a href=https://www.buymeacoffee.com/sergiye>
-<img src="https://www.buymeacoffee.com/assets/img/custom_images/yellow_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" />
-</a>
-
-**If you like the program, you can support the author and transfer money to**
-- PrivatBank card number: 5169 3600 1644 3834
-- IBAN number: UA113052990000026208909644481
